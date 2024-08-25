@@ -11,7 +11,7 @@ const app = express();
 app.use(express.json());
 app.use(cors({
   credentials: true,
-  origin: "http://localhost:5173"
+  origin: "https://aicc-4.onrender.com/"
 }));
 
 mongoose.connect(process.env.MONGODB_URL)
@@ -29,7 +29,7 @@ mongoose.connect(process.env.MONGODB_URL)
       res.status(500).json({ message: 'Error retrieving signup data', error: error.message });
     }
   });
-  
+
   app.post('/signup', async (req, res) => {
     try {
       console.log('Received data:', req.body); // Add this line
