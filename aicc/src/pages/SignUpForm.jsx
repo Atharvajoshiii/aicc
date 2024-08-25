@@ -1,4 +1,4 @@
-"use client";
+
 import React, { useState } from "react";
 import { Label } from "../ui/Label";
 import { Input } from "../ui/Input";
@@ -62,7 +62,7 @@ export function SignupFormDemo() {
         const errorData = await response.json(); // Get the error message from the response
         throw new Error(errorData.message);
       }
-
+      
       const result = await response.json();
       console.log('Form submitted successfully:', result);
       navigate('/thankyou');

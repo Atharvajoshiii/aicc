@@ -2,6 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors'); // Add this import
 const Signup = require('./Models/UserModel.js');
+const dotenv = require('dotenv');
+dotenv.config()
 const port = 3000;
 
 const app = express();
@@ -12,7 +14,7 @@ app.use(cors({
   origin: "http://localhost:5173"
 }));
 
-mongoose.connect('mongodb://localhost:27017/aicc')
+mongoose.connect(process.env.MONGODB_URL)
   .then(() => {
     console.log('MongoDB connected');
   })
