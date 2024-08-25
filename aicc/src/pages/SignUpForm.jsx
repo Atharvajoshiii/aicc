@@ -50,7 +50,7 @@ export function SignupFormDemo() {
     };
 
     try {
-      const response = await fetch('http://localhost:3000/signup', {
+      const response = await fetch('https://aicc-3.onrender.com/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

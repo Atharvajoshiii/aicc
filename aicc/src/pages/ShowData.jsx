@@ -8,7 +8,7 @@ const ShowData = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:3000/showallposts');
+        const response = await fetch('https://aicc-3.onrender.com/showallposts');
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
