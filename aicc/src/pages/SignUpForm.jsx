@@ -1,9 +1,9 @@
-
 import React, { useState } from "react";
 import { Label } from "../ui/Label";
 import { Input } from "../ui/Input";
 import { cn } from "../lib/utils";
 import { useNavigate } from "react-router-dom";
+import Loader from "../components/Loader";
 
 export function SignupFormDemo() {
   // Define state for each input field
@@ -14,6 +14,7 @@ export function SignupFormDemo() {
   const [year, setYear] = useState("");
   const [branch, setBranch] = useState("");
   const [errors, setErrors] = useState({}); // State for validation errors
+  const [loading, setLoading] = useState(false); // State for loading
   const navigate = useNavigate();
 
   // Validate the form fields
@@ -49,6 +50,8 @@ export function SignupFormDemo() {
       branch,
     };
 
+    setLoading(true); // Show loader
+
     try {
       const response = await fetch('https://aicc-3.onrender.com/signup', {
         method: 'POST',
@@ -69,6 +72,8 @@ export function SignupFormDemo() {
     } catch (error) {
       console.error('Error submitting the form:', error);
       alert(`Registration failed: ${error.message}`);
+    } finally {
+      setLoading(false); // Hide loader
     }
   };
 
@@ -82,86 +87,92 @@ export function SignupFormDemo() {
           Join the best and official coding club of GHRCEM Pune
         </p>
 
-        <form className="my-8" onSubmit={handleSubmit}>
-          <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
-            <LabelInputContainer>
-              <Label htmlFor="firstname">First name</Label>
-              <Input
-                id="firstname"
-                placeholder="Enter your name"
-                type="text"
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-              />
-              {errors.firstName && <p className="text-red-500 text-sm">{errors.firstName}</p>}
-            </LabelInputContainer>
-            <LabelInputContainer>
-              <Label htmlFor="lastname">Last name</Label>
-              <Input
-                id="lastname"
-                placeholder="Enter last name"
-                type="text"
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
-              />
-              {errors.lastName && <p className="text-red-500 text-sm">{errors.lastName}</p>}
-            </LabelInputContainer>
+        {loading ? (
+          <div className="flex justify-center items-center h-32">
+            <Loader />
           </div>
-          <LabelInputContainer className="mb-4">
-            <Label htmlFor="email">Email Address</Label>
-            <Input
-              id="email"
-              placeholder="projectmayhem@fc.com"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
-          </LabelInputContainer>
-          <LabelInputContainer className="mb-4">
-            <Label htmlFor="phone">Phone number</Label>
-            <Input
-              id="phone"
-              placeholder="Enter your phone number"
-              type="text" // Use 'text' instead of 'phone' for better compatibility
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-            />
-            {errors.phone && <p className="text-red-500 text-sm">{errors.phone}</p>}
-          </LabelInputContainer>
-          <LabelInputContainer className="mb-4">
-            <Label htmlFor="year">Year</Label>
-            <Input
-              id="year"
-              placeholder="Enter your year"
-              type="text"
-              value={year}
-              onChange={(e) => setYear(e.target.value)}
-            />
-            {errors.year && <p className="text-red-500 text-sm">{errors.year}</p>}
-          </LabelInputContainer>
-          <LabelInputContainer className="mb-4">
-            <Label htmlFor="branch">Branch</Label>
-            <Input
-              id="branch"
-              placeholder="Enter your branch name"
-              type="text"
-              value={branch}
-              onChange={(e) => setBranch(e.target.value)}
-            />
-            {errors.branch && <p className="text-red-500 text-sm">{errors.branch}</p>}
-          </LabelInputContainer>
+        ) : (
+          <form className="my-8" onSubmit={handleSubmit}>
+            <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
+              <LabelInputContainer>
+                <Label htmlFor="firstname">First name</Label>
+                <Input
+                  id="firstname"
+                  placeholder="Enter your name"
+                  type="text"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                />
+                {errors.firstName && <p className="text-red-500 text-sm">{errors.firstName}</p>}
+              </LabelInputContainer>
+              <LabelInputContainer>
+                <Label htmlFor="lastname">Last name</Label>
+                <Input
+                  id="lastname"
+                  placeholder="Enter last name"
+                  type="text"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                />
+                {errors.lastName && <p className="text-red-500 text-sm">{errors.lastName}</p>}
+              </LabelInputContainer>
+            </div>
+            <LabelInputContainer className="mb-4">
+              <Label htmlFor="email">Email Address</Label>
+              <Input
+                id="email"
+                placeholder="projectmayhem@fc.com"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
+            </LabelInputContainer>
+            <LabelInputContainer className="mb-4">
+              <Label htmlFor="phone">Phone number</Label>
+              <Input
+                id="phone"
+                placeholder="888888888"
+                type="text" // Use 'text' instead of 'phone' for better compatibility
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+              />
+              {errors.phone && <p className="text-red-500 text-sm">{errors.phone}</p>}
+            </LabelInputContainer>
+            <LabelInputContainer className="mb-4">
+              <Label htmlFor="year">Year</Label>
+              <Input
+                id="year"
+                placeholder="First Year"
+                type="text"
+                value={year}
+                onChange={(e) => setYear(e.target.value)}
+              />
+              {errors.year && <p className="text-red-500 text-sm">{errors.year}</p>}
+            </LabelInputContainer>
+            <LabelInputContainer className="mb-4">
+              <Label htmlFor="branch">Branch</Label>
+              <Input
+                id="branch"
+                placeholder="CSE-AI"
+                type="text"
+                value={branch}
+                onChange={(e) => setBranch(e.target.value)}
+              />
+              {errors.branch && <p className="text-red-500 text-sm">{errors.branch}</p>}
+            </LabelInputContainer>
 
-          <button
-            className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
-            type="submit"
-          >
-            Register &rarr;
-            <BottomGradient />
-          </button>
+            <button
+              className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
+              type="submit"
+            >
+              Register &rarr;
+              <BottomGradient />
+            </button>
 
-          <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-8 h-[1px] w-full" />
-        </form>
+            <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-8 h-[1px] w-full" />
+          </form>
+        )}
       </div>
     </div>
   );
